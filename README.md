@@ -112,7 +112,7 @@ npm i -g @nestjs/cli
 nest new school-erp
 cd school-erp
 2. Install GraphQL packages
-npm install @nestjs/graphql @nestjs/apollo @apollo/server graphql
+npm install @nestjs/graphql @nestjs/apollo @apollo/server graphql @as-integrations/express5
 3. Install Prisma + MongoDB client
 npm install prisma --save-dev
 npm install @prisma/client

@@ -1,6 +1,5 @@
-import { Args, Resolver } from '@nestjs/graphql';
+import { Args, Query, Resolver } from '@nestjs/graphql';
 import { StudentsService } from './students.service';
-import { Query } from '@nestjs/common';
 import { StudentModel } from './dto/student.model';
 
 @Resolver()
