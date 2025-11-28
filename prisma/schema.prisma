@@ -1,15 +1,117 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
+}
+
+/**
+ * User —< Student (one-to-one)
+ * Student.userId is UNIQUE so one user -> one student.
+ * Student has class relation (optional).
+ */
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String   @unique
+  role      String
+  createdAt DateTime @default(now())
+
+  // back-relation (no fields here, FK lives on Student)
+  student Student?
+}
+
+model Student {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // one-to-one -> make FK unique
+  userId String @unique @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+
+  rollNo  String?
+  classId String? @db.ObjectId
+  class   Class?  @relation(fields: [classId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  // one-to-many back-relations
+  attendances Attendance[]
+  results     Result[]
+  payments    Payment[]
+}
+
+model Class {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  section   String?
+  createdAt DateTime @default(now())
+
+  subjects Subject[]
+  students Student[]
+}
+
+model Subject {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  classId   String   @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+
+  class Class @relation(fields: [classId], references: [id])
+}
+
+model Attendance {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  studentId String   @db.ObjectId
+  date      DateTime
+  status    String // present/absent/leave
+  createdAt DateTime @default(now())
+
+  student Student @relation(fields: [studentId], references: [id])
+}
+
+model Fees {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  classId   String    @db.ObjectId
+  amount    Float
+  dueDate   DateTime?
+  createdAt DateTime  @default(now())
+
+  payments Payment[]
+}
+
+model Payment {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  studentId  String   @db.ObjectId
+  feesId     String?  @db.ObjectId
+  amountPaid Float
+  paidAt     DateTime @default(now())
+
+  student Student @relation(fields: [studentId], references: [id])
+  fees    Fees?   @relation(fields: [feesId], references: [id])
+}
+
+model Exam {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  classId   String   @db.ObjectId
+  name      String
+  date      DateTime
+  createdAt DateTime @default(now())
+
+  results Result[]
+}
+
+model Result {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  examId    String   @db.ObjectId
+  studentId String   @db.ObjectId
+  marks     Float
+  grade     String?
+  createdAt DateTime @default(now())
+
+  exam    Exam    @relation(fields: [examId], references: [id])
+  student Student @relation(fields: [studentId], references: [id])
 }
