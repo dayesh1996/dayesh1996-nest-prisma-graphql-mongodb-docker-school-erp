@@ -22,7 +22,7 @@ export class PaymentModel {
   @Field(() => Float)
   amountPaid: number;
 
-  @Field()
+  @Field(() => Date)
   paidAt: Date;
 }
 

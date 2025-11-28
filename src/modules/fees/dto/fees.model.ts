@@ -11,10 +11,10 @@ export class FeesModel {
   @Field(() => Float)
   amount: number;
 
-  @Field({ nullable: true })
+  @Field(() => Date, { nullable: true })
   dueDate: Date | null;
 
-  @Field()
+  @Field(() => Date)
   createdAt: Date;
 }
 

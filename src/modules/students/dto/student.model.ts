@@ -13,7 +13,7 @@ export class StudentModel {
   @Field(() => UserModel, { nullable: true })
   user: UserModel | null;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   rollNo: string | null;
 
   @Field(() => ID, { nullable: true })
@@ -22,6 +22,6 @@ export class StudentModel {
   @Field(() => ClassModel, { nullable: true })
   class: ClassModel | null;
 
-  @Field()
+  @Field(() => Date)
   createdAt: Date;
 }

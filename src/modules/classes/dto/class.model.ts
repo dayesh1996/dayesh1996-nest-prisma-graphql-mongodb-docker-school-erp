@@ -5,13 +5,13 @@ export class ClassModel {
   @Field(() => ID)
   id: string;
 
-  @Field()
+  @Field(() => String)
   name: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   section: string | null;
 
-  @Field()
+  @Field(() => Date)
   createdAt: Date;
 }
 

@@ -2,6 +2,252 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AttendanceModel {
+  createdAt: DateTime!
+  date: DateTime!
+  id: ID!
+  status: String!
+  student: StudentModel
+  studentId: ID!
+}
+
+type ClassModel {
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  section: String
+}
+
+input CreateAttendanceInput {
+  date: DateTime!
+  status: String!
+  studentId: String!
+}
+
+input CreateClassInput {
+  name: String!
+  section: String
+}
+
+input CreateExamInput {
+  classId: String!
+  date: DateTime!
+  name: String!
+}
+
+input CreateFeesInput {
+  amount: Float!
+  classId: String!
+  dueDate: DateTime
+}
+
+input CreatePaymentInput {
+  amountPaid: Float!
+  feesId: String
+  studentId: String!
+}
+
+input CreateResultInput {
+  examId: String!
+  grade: String
+  marks: Float!
+  studentId: String!
+}
+
+input CreateStudentInput {
+  classId: String
+  rollNo: String
+  userId: String!
+}
+
+input CreateSubjectInput {
+  classId: String!
+  name: String!
+}
+
+input CreateUserInput {
+  email: String!
+  name: String!
+  role: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type ExamModel {
+  classId: ID!
+  createdAt: DateTime!
+  date: DateTime!
+  id: ID!
+  name: String!
+}
+
+type FeesModel {
+  amount: Float!
+  classId: ID!
+  createdAt: DateTime!
+  dueDate: DateTime
+  id: ID!
+}
+
+type Mutation {
+  createAttendance(createAttendanceInput: CreateAttendanceInput!): AttendanceModel!
+  createClass(createClassInput: CreateClassInput!): ClassModel!
+  createExam(createExamInput: CreateExamInput!): ExamModel!
+  createFees(createFeesInput: CreateFeesInput!): FeesModel!
+  createPayment(createPaymentInput: CreatePaymentInput!): PaymentModel!
+  createResult(createResultInput: CreateResultInput!): ResultModel!
+  createStudent(createStudentInput: CreateStudentInput!): StudentModel!
+  createSubject(createSubjectInput: CreateSubjectInput!): SubjectModel!
+  createUser(createUserInput: CreateUserInput!): UserModel!
+  removeAttendance(id: ID!): AttendanceModel!
+  removeClass(id: ID!): ClassModel!
+  removeExam(id: ID!): ExamModel!
+  removeFees(id: ID!): FeesModel!
+  removePayment(id: ID!): PaymentModel!
+  removeResult(id: ID!): ResultModel!
+  removeStudent(id: ID!): StudentModel!
+  removeSubject(id: ID!): SubjectModel!
+  removeUser(id: ID!): UserModel!
+  updateAttendance(id: ID!, updateAttendanceInput: UpdateAttendanceInput!): AttendanceModel!
+  updateClass(id: ID!, updateClassInput: UpdateClassInput!): ClassModel!
+  updateExam(id: ID!, updateExamInput: UpdateExamInput!): ExamModel!
+  updateFees(id: ID!, updateFeesInput: UpdateFeesInput!): FeesModel!
+  updatePayment(id: ID!, updatePaymentInput: UpdatePaymentInput!): PaymentModel!
+  updateResult(id: ID!, updateResultInput: UpdateResultInput!): ResultModel!
+  updateStudent(id: ID!, updateStudentInput: UpdateStudentInput!): StudentModel!
+  updateSubject(id: ID!, updateSubjectInput: UpdateSubjectInput!): SubjectModel!
+  updateUser(id: ID!, updateUserInput: UpdateUserInput!): UserModel!
+}
+
+type PaymentModel {
+  amountPaid: Float!
+  fees: FeesModel
+  feesId: ID
+  id: ID!
+  paidAt: DateTime!
+  student: StudentModel
+  studentId: ID!
+}
+
 type Query {
-  hello: String!
+  attendance(id: ID!): AttendanceModel!
+  attendances: [AttendanceModel!]!
+  attendancesByStudent(studentId: ID!): [AttendanceModel!]!
+  class(id: ID!): ClassModel!
+  classes: [ClassModel!]!
+  exam(id: ID!): ExamModel!
+  exams: [ExamModel!]!
+  examsByClass(classId: ID!): [ExamModel!]!
+  fee(id: ID!): FeesModel!
+  fees: [FeesModel!]!
+  feesByClass(classId: ID!): [FeesModel!]!
+  payment(id: ID!): PaymentModel!
+  payments: [PaymentModel!]!
+  paymentsByStudent(studentId: ID!): [PaymentModel!]!
+  result(id: ID!): ResultModel!
+  results: [ResultModel!]!
+  resultsByExam(examId: ID!): [ResultModel!]!
+  resultsByStudent(studentId: ID!): [ResultModel!]!
+  student(id: ID!): StudentModel!
+  studentByUserId(userId: ID!): StudentModel
+  students: [StudentModel!]!
+  studentsByClass(classId: ID!): [StudentModel!]!
+  subject(id: ID!): SubjectModel!
+  subjects: [SubjectModel!]!
+  subjectsByClass(classId: ID!): [SubjectModel!]!
+  user(id: ID!): UserModel!
+  userByEmail(email: String!): UserModel
+  users: [UserModel!]!
+}
+
+type ResultModel {
+  createdAt: DateTime!
+  exam: ExamModel
+  examId: ID!
+  grade: String
+  id: ID!
+  marks: Float!
+  student: StudentModel
+  studentId: ID!
+}
+
+type StudentModel {
+  class: ClassModel
+  classId: ID
+  createdAt: DateTime!
+  id: ID!
+  rollNo: String
+  user: UserModel
+  userId: ID!
+}
+
+type SubjectModel {
+  class: ClassModel
+  classId: ID!
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+}
+
+input UpdateAttendanceInput {
+  date: DateTime
+  status: String
+  studentId: String
+}
+
+input UpdateClassInput {
+  name: String
+  section: String
+}
+
+input UpdateExamInput {
+  classId: String
+  date: DateTime
+  name: String
+}
+
+input UpdateFeesInput {
+  amount: Float
+  classId: String
+  dueDate: DateTime
+}
+
+input UpdatePaymentInput {
+  amountPaid: Float
+  feesId: String
+  studentId: String
+}
+
+input UpdateResultInput {
+  examId: String
+  grade: String
+  marks: Float
+  studentId: String
+}
+
+input UpdateStudentInput {
+  classId: String
+  rollNo: String
+}
+
+input UpdateSubjectInput {
+  classId: String
+  name: String
+}
+
+input UpdateUserInput {
+  email: String
+  name: String
+  role: String
+}
+
+type UserModel {
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  name: String!
+  role: String!
 }

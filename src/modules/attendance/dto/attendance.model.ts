@@ -12,13 +12,13 @@ export class AttendanceModel {
   @Field(() => StudentModel, { nullable: true })
   student: StudentModel | null;
 
-  @Field()
+  @Field(() => Date)
   date: Date;
 
-  @Field()
+  @Field(() => String)
   status: string; // present/absent/leave
 
-  @Field()
+  @Field(() => Date)
   createdAt: Date;
 }
 

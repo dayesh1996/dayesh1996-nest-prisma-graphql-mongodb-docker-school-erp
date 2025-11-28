@@ -8,13 +8,13 @@ export class ExamModel {
   @Field(() => ID)
   classId: string;
 
-  @Field()
+  @Field(() => String)
   name: string;
 
-  @Field()
+  @Field(() => Date)
   date: Date;
 
-  @Field()
+  @Field(() => Date)
   createdAt: Date;
 }
 

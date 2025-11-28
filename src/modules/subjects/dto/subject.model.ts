@@ -12,10 +12,10 @@ export class SubjectModel {
   @Field(() => ClassModel, { nullable: true })
   class: ClassModel | null;
 
-  @Field()
+  @Field(() => String)
   name: string;
 
-  @Field()
+  @Field(() => Date)
   createdAt: Date;
 }
 

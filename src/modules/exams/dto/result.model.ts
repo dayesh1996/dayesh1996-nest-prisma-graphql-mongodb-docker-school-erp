@@ -22,10 +22,10 @@ export class ResultModel {
   @Field(() => Float)
   marks: number;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   grade: string | null;
 
-  @Field()
+  @Field(() => Date)
   createdAt: Date;
 }
 
