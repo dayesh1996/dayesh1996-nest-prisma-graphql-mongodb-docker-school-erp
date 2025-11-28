@@ -15,5 +15,5 @@ export class UserModel {
     role:string;
 
     @Field()
-    createrdAt:Date;    
+    createdAt: Date;    
 }

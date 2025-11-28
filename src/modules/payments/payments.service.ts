@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { CreateAttendanceInput } from './dto/create-attendance.input';
-import { UpdateAttendanceInput } from './dto/update-attendance.input';
-import { AttendanceModel } from './dto/attendance.model';
+import { CreatePaymentInput } from './dto/create-payment.input';
+import { UpdatePaymentInput } from './dto/update-payment.input';
+import { PaymentModel } from './dto/payment.model';
 
 @Injectable()
-export class AttendanceService {
+export class PaymentsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createAttendanceInput: CreateAttendanceInput): Promise<AttendanceModel> {
-    return this.prisma.attendance.create({
-      data: createAttendanceInput,
+  async create(createPaymentInput: CreatePaymentInput): Promise<PaymentModel> {
+    return this.prisma.payment.create({
+      data: createPaymentInput,
       include: {
         student: {
           include: {
@@ -18,12 +18,13 @@ export class AttendanceService {
             class: true,
           },
         },
+        fees: true,
       },
     });
   }
 
-  async findAll(): Promise<AttendanceModel[]> {
-    return this.prisma.attendance.findMany({
+  async findAll(): Promise<PaymentModel[]> {
+    return this.prisma.payment.findMany({
       include: {
         student: {
           include: {
@@ -31,12 +32,16 @@ export class AttendanceService {
             class: true,
           },
         },
+        fees: true,
+      },
+      orderBy: {
+        paidAt: 'desc',
       },
     });
   }
 
-  async findOne(id: string): Promise<AttendanceModel | null> {
-    return this.prisma.attendance.findUnique({
+  async findOne(id: string): Promise<PaymentModel | null> {
+    return this.prisma.payment.findUnique({
       where: { id },
       include: {
         student: {
@@ -45,12 +50,13 @@ export class AttendanceService {
             class: true,
           },
         },
+        fees: true,
       },
     });
   }
 
-  async findByStudentId(studentId: string): Promise<AttendanceModel[]> {
-    return this.prisma.attendance.findMany({
+  async findByStudentId(studentId: string): Promise<PaymentModel[]> {
+    return this.prisma.payment.findMany({
       where: { studentId },
       include: {
         student: {
@@ -59,17 +65,18 @@ export class AttendanceService {
             class: true,
           },
         },
+        fees: true,
       },
       orderBy: {
-        date: 'desc',
+        paidAt: 'desc',
       },
     });
   }
 
-  async update(id: string, updateAttendanceInput: UpdateAttendanceInput): Promise<AttendanceModel> {
-    return this.prisma.attendance.update({
+  async update(id: string, updatePaymentInput: UpdatePaymentInput): Promise<PaymentModel> {
+    return this.prisma.payment.update({
       where: { id },
-      data: updateAttendanceInput,
+      data: updatePaymentInput,
       include: {
         student: {
           include: {
@@ -77,12 +84,13 @@ export class AttendanceService {
             class: true,
           },
         },
+        fees: true,
       },
     });
   }
 
-  async remove(id: string): Promise<AttendanceModel> {
-    return this.prisma.attendance.delete({
+  async remove(id: string): Promise<PaymentModel> {
+    return this.prisma.payment.delete({
       where: { id },
       include: {
         student: {
@@ -91,7 +99,9 @@ export class AttendanceService {
             class: true,
           },
         },
+        fees: true,
       },
     });
   }
 }
+
